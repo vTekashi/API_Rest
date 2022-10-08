@@ -25,7 +25,7 @@ public class LivroService {
 			return livroRepository.save(livro);
 		}
 		
-		public Livro updateEditora(Livro livro, int id) {
+		public Livro updateLivro(Livro livro, int id) {
 			Livro livroExistenteNoBanco = getLivroById(id);
 			
 			livroExistenteNoBanco.setNomeLivro(livro.getNomeLivro());

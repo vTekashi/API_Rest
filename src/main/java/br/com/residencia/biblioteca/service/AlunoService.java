@@ -18,8 +18,8 @@ public class AlunoService {
 	}
 	
 	public Aluno getAlunoById(int id) {
-		return alunoRepository.findById(id).get();
-		//return alunoRepository.findById(id).orElse(null);
+		//return alunoRepository.findById(id).get(); 
+		return alunoRepository.findById(id).orElse(null);
 	}
 	
 	public Aluno saveAluno(Aluno aluno) {

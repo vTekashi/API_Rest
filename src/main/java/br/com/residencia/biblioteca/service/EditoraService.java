@@ -18,7 +18,7 @@ public class EditoraService {
 	}
 	
 	public Editora getEditoraById(int id) {
-		return editoraRepository.findById(id).get();
+		return editoraRepository.findById(id).orElse(null);
 	}
 	
 	public Editora saveEditora(Editora editora) {
@@ -37,5 +37,6 @@ public class EditoraService {
 		editoraRepository.deleteById(id);
 		return getEditoraById(id);
 	}
+	
 	
 }
