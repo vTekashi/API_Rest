@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import br.com.residencia.biblioteca.dto.EditoraDTO;
+
 @JsonIdentityInfo(
 		generator = ObjectIdGenerators.PropertyGenerator.class, property = "codigoEditora")
 @Entity
@@ -29,6 +31,19 @@ public class Editora {
 	@OneToMany(mappedBy = "editora")
 	private Set<Livro> livros;
 	
+	
+	
+
+	public Editora() {
+		
+	}
+	
+
+	public Editora(EditoraDTO editoraDTO) {
+		this.codigoEditora = editoraDTO.getCodigoEditora();
+		this.nome = editoraDTO.getNome();
+	}
+
 
 	public int getCodigoEditora() {
 		return codigoEditora;
@@ -53,5 +68,6 @@ public class Editora {
 	public void setLivros(Set<Livro> livros) {
 		this.livros = livros;
 	}
+	
 
 }
