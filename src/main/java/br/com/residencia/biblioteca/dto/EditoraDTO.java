@@ -1,19 +1,27 @@
 package br.com.residencia.biblioteca.dto;
 
-import br.com.residencia.biblioteca.entity.Editora;
+import java.util.List;
 
 public class EditoraDTO {
 	private int codigoEditora;
 	private String nome;
+	private List<LivroDTO> listaLivrosDTO;
 	
-	public EditoraDTO() {
-		
+
+	public List<LivroDTO> getListaLivrosDTO() {
+		return listaLivrosDTO;
 	}
-	
-	public EditoraDTO(Editora editora) {
-		this.codigoEditora = editora.getCodigoEditora();
-		this.nome = editora.getNome() ;
+	public void setListaLivrosDTO(List<LivroDTO> listaLivrosDTO) {
+		this.listaLivrosDTO = listaLivrosDTO;
 	}
+	//	public EditoraDTO() {
+//		
+//	}
+//	
+//	public EditoraDTO(int codigoEditora, String nome) {
+//		this.codigoEditora = codigoEditora;
+//		this.nome = nome;
+//	}
 	public int getCodigoEditora() {
 		return codigoEditora;
 	}

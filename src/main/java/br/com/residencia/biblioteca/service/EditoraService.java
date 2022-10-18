@@ -1,26 +1,50 @@
 package br.com.residencia.biblioteca.service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.residencia.biblioteca.dto.EditoraDTO;
+import br.com.residencia.biblioteca.dto.LivroDTO;
 import br.com.residencia.biblioteca.entity.Editora;
+import br.com.residencia.biblioteca.entity.Livro;
 import br.com.residencia.biblioteca.repository.EditoraRepository;
+import br.com.residencia.biblioteca.repository.LivroRepository;
 
 @Service
 public class EditoraService {
 	@Autowired
 	EditoraRepository editoraRepository;
 	
+	@Autowired
+	LivroRepository livroRepository;
+	
+	@Autowired
+	LivroService livroService;
+	
+	
 	public List<Editora> getAllEditoras(){
 		return editoraRepository.findAll();
 	}
 	
 	public List<EditoraDTO> getAllEditorasDTO(){
-		return editoraRepository.findAll().stream().map(EditoraDTO::new).collect(Collectors.toList());
+		List<Editora> listaEditora = editoraRepository.findAll();
+		List<EditoraDTO> listaEditoraDTO = new ArrayList<>();
+	
+		//1. Percorrer a lista de entidades Editora (chamada listaEditora)
+		//2. Na lista de entidade, pegar cada entidade existente nela
+		for(Editora editora: listaEditora) {
+			//3. Transformar cada entidade existente na lista em um DTO
+			EditoraDTO editoraDTO = toDTO(editora);
+			//OBS: para converter a entidade no DTO, usar o metodo toDTO
+			//4. Adicionar cada DTO (que foi transformado a partir da entidade) na lista de DTO
+			listaEditoraDTO.add(editoraDTO);	
+		}
+		//5. Retornar/devolver a lista de DTO preenchida
+		return listaEditoraDTO;		
+		
 	}
 	
 	public Editora getEditoraById(int id) {
@@ -31,10 +55,27 @@ public class EditoraService {
 		return editoraRepository.save(editora);
 	}
 	
-	public EditoraDTO saveEditoraDTO(EditoraDTO editoraDTO) {
+	private Editora toEntidade (EditoraDTO editoraDTO) {
+		Editora editora = new Editora();
+		editora.setNome(editoraDTO.getNome());
+		return editora;
+	}
+	
+	private EditoraDTO toDTO(Editora editora) {
+		EditoraDTO editoraDTO = new EditoraDTO();
 		
-		Editora editora = new Editora(editoraDTO);
-		return new EditoraDTO(editoraRepository.save(editora)); 
+		editoraDTO.setCodigoEditora(editora.getCodigoEditora());
+		editoraDTO.setNome(editora.getNome());
+		
+		return editoraDTO;
+	}
+	
+	public EditoraDTO saveEditoraDTO(EditoraDTO editoraDTO) {
+		Editora editora = toEntidade(editoraDTO);
+		Editora novaEditora = editoraRepository.save(editora);
+		
+		EditoraDTO editoraAtualizadaDTO = toDTO(novaEditora);
+		return editoraAtualizadaDTO;
 	}
 		
 	
@@ -47,9 +88,53 @@ public class EditoraService {
 		return editoraRepository.save(editoraExistenteNoBanco);
 	}
 	
+	public EditoraDTO updateEditoraDTO(EditoraDTO editoraDTO, int id) {
+		Editora editoraExistenteNoBanco = getEditoraById(id);
+		EditoraDTO editoraAtualizadaDTO = new EditoraDTO();
+		
+		
+		if(editoraExistenteNoBanco != null){
+			
+			editoraExistenteNoBanco = toEntidade(editoraDTO);
+			
+			//editoraExistenteNoBanco.setNome(editoraDTO.getNome());
+			
+			
+			Editora editoraAtualizada = editoraRepository.save(editoraExistenteNoBanco);
+			
+			editoraAtualizadaDTO = toDTO(editoraAtualizada);
+			
+			//editoraAtualizadaDTO.setCodigoEditora(editoraAtualizada.getCodigoEditora());
+			//editoraAtualizadaDTO.setNome(editoraAtualizada.getNome());
+		}
+		return editoraAtualizadaDTO;
+	}
+	
 	public Editora deleteEditora(int id) {
 		editoraRepository.deleteById(id);
 		return getEditoraById(id);
+	}
+	
+	public List<EditoraDTO> getAllEditorasLivrosDTO(){
+		List<Editora> listaEditora = editoraRepository.findAll();
+		List<EditoraDTO> listaEditoraDTO = new ArrayList<>();
+	
+		for(Editora editora: listaEditora) {
+			EditoraDTO editoraDTO = toDTO(editora);
+			List<Livro> listaLivros = new ArrayList<>();
+			List<LivroDTO> listaLivrosDTO = new ArrayList<>();
+		
+			listaLivros = livroRepository.findByEditora(editora);
+			
+			for(Livro livro : listaLivros) {
+				LivroDTO livroDTO = livroService.toDTO(livro);
+				listaLivrosDTO.add(livroDTO);
+			}
+			editoraDTO.setListaLivrosDTO(listaLivrosDTO);
+			
+			listaEditoraDTO.add(editoraDTO);	
+		}
+		return listaEditoraDTO;	
 	}
 	
 	
