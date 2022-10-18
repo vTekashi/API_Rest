@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.residencia.biblioteca.dto.AlunoDTO;
 import br.com.residencia.biblioteca.entity.Aluno;
 import br.com.residencia.biblioteca.service.AlunoService;
 
@@ -27,6 +28,7 @@ public class AlunoController {
 	public ResponseEntity<List<Aluno>> getAllAlunos(){
 		return new ResponseEntity<>(alunoService.getAllAlunos(), HttpStatus.OK);
 	}
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<Aluno> getAlunoById(@PathVariable int id) {
 		Aluno aluno = alunoService.getAlunoById(id);
@@ -39,12 +41,38 @@ public class AlunoController {
 	public ResponseEntity<Aluno> saveAluno(@RequestBody Aluno aluno) {
 		return new ResponseEntity<>(alunoService.saveAluno(aluno), HttpStatus.CREATED);
 	}
+	
 	@PutMapping("/{id}")
 	public ResponseEntity<Aluno> updateAluno(@RequestBody Aluno aluno, @PathVariable int id){
 		return new ResponseEntity<>(alunoService.updateAluno(aluno, id), HttpStatus.OK);
 	}
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Aluno>deleteAluno(@PathVariable int id){
 		return new ResponseEntity<>(alunoService.deleteAluno(id), HttpStatus.OK);
 	}
+	
+	//---------------------------------------------------------DTO------------------------------------------------------------------
+	
+	@GetMapping("/dto")
+	public ResponseEntity<List<AlunoDTO>> getAllAlunosDTO(){
+		return new ResponseEntity<>(alunoService.getAllAlunosDTO(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/alunos-emprestimos")
+	public ResponseEntity<List<AlunoDTO>> getAllAlunosEmprestimosDTO(){
+		return new ResponseEntity<>(alunoService.getAllAlunosEmprestimosDTO(), HttpStatus.OK);
+	}
+	
+	@PostMapping("/dto")
+	public ResponseEntity<AlunoDTO> saveAlunoDTO(@RequestBody AlunoDTO alunoDTO){
+		return new ResponseEntity<>(alunoService.saveAlunoDTO(alunoDTO), HttpStatus.CREATED);
+	}
+	
+	@PutMapping("/dto/{id}")
+	public ResponseEntity<AlunoDTO> updateAlunoDTO(@RequestBody AlunoDTO alunoDTO, @PathVariable int id){
+		return new ResponseEntity<>(alunoService.updateAlunoDTO(alunoDTO, id), HttpStatus.OK);
+	}
+	
+	
 }

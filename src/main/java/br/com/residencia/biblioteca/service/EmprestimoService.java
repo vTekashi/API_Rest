@@ -39,7 +39,7 @@ public class EmprestimoService {
 	}
 	
 	
-	private Emprestimo toEntidade (EmprestimoDTO emprestimoDTO) {
+	public Emprestimo toEntidade (EmprestimoDTO emprestimoDTO) {
 		Emprestimo emprestimo = new Emprestimo();
 		
 		
@@ -50,7 +50,7 @@ public class EmprestimoService {
 		return emprestimo;
 	}
 	
-	private EmprestimoDTO toDTO(Emprestimo emprestimo) {
+	public EmprestimoDTO toDTO(Emprestimo emprestimo) {
 		EmprestimoDTO emprestimoDTO = new EmprestimoDTO();
 		
 		emprestimoDTO.setDataEmprestimo(emprestimo.getDataEmprestimo());

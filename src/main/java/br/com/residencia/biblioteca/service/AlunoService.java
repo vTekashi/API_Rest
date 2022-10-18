@@ -1,21 +1,47 @@
 package br.com.residencia.biblioteca.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.residencia.biblioteca.dto.AlunoDTO;
+import br.com.residencia.biblioteca.dto.EmprestimoDTO;
 import br.com.residencia.biblioteca.entity.Aluno;
+import br.com.residencia.biblioteca.entity.Emprestimo;
 import br.com.residencia.biblioteca.repository.AlunoRepository;
+import br.com.residencia.biblioteca.repository.EmprestimoRepository;
 
 @Service
 public class AlunoService {
 	@Autowired
 	AlunoRepository alunoRepository;
 	
+	@Autowired
+	EmprestimoRepository emprestimoRepository;
+	
+	@Autowired
+	EmprestimoService emprestimoService;
+	
 	public List<Aluno> getAllAlunos(){
 		return alunoRepository.findAll();
+	}
+	
+	public List<AlunoDTO> getAllAlunosDTO(){
+		List<Aluno> listaAluno = alunoRepository.findAll();
+		List<AlunoDTO> listaAlunoDTO = new ArrayList<>();
+	
+		
+		for(Aluno aluno: listaAluno) {
+			
+			AlunoDTO alunoDTO = toDTO(aluno);
+			
+			listaAlunoDTO.add(alunoDTO);	
+		}
+		
+		return listaAlunoDTO;		
+		
 	}
 	
 	public Aluno getAlunoById(int id) {
@@ -25,6 +51,14 @@ public class AlunoService {
 	
 	public Aluno saveAluno(Aluno aluno) {
 		return alunoRepository.save(aluno);
+	}
+	
+	public AlunoDTO saveAlunoDTO(AlunoDTO alunoDTO) {
+		Aluno aluno = toEntidade(alunoDTO);
+		Aluno novoAluno = alunoRepository.save(aluno);
+		
+		AlunoDTO alunoAtualizadaDTO = toDTO(novoAluno);
+		return alunoAtualizadaDTO;
 	}
 	
 	public Aluno updateAluno(Aluno aluno, int id) {
@@ -41,6 +75,28 @@ public class AlunoService {
 		alunoExistenteNoBanco.setNumeroLogradouro(aluno.getNumeroLogradouro());
 		
 		return alunoRepository.save(alunoExistenteNoBanco);
+	}
+	
+	public AlunoDTO updateAlunoDTO(AlunoDTO alunoDTO, int id) {
+		Aluno alunoExistenteNoBanco = getAlunoById(id);
+		AlunoDTO alunoAtualizadoDTO = new AlunoDTO();
+		
+		
+		if(alunoExistenteNoBanco != null){
+			
+			alunoExistenteNoBanco = toEntidade(alunoDTO);
+			
+			//AlunoExistenteNoBanco.setNome(AlunoDTO.getNome());
+			
+			
+			Aluno alunoAtualizado = alunoRepository.save(alunoExistenteNoBanco);
+			
+			alunoAtualizadoDTO = toDTO(alunoAtualizado);
+			
+			//AlunoAtualizadaDTO.setCodigoAluno(AlunoAtualizada.getCodigoAluno());
+			//AlunoAtualizadaDTO.setNome(AlunoAtualizada.getNome());
+		}
+		return alunoAtualizadoDTO;
 	}
 	
 	private Aluno toEntidade (AlunoDTO alunoDTO) {
@@ -79,6 +135,28 @@ public class AlunoService {
 	public Aluno deleteAluno(int id) {
 		alunoRepository.deleteById(id); //DELETA
 		return getAlunoById(id);  //PROCURA NO BANCO PARA VER SE DELETOU.
+	}
+	
+	public List<AlunoDTO> getAllAlunosEmprestimosDTO(){
+		List<Aluno> listaAluno = alunoRepository.findAll();
+		List<AlunoDTO> listaAlunoDTO = new ArrayList<>();
+	
+		for(Aluno alunos: listaAluno) {
+			AlunoDTO alunoDTO = toDTO(alunos);
+			List<Emprestimo> listaEmprestimos = new ArrayList<>();
+			List<EmprestimoDTO> listaEmprestimosDTO = new ArrayList<>();
+		
+			listaEmprestimos = emprestimoRepository.findByAlunos(alunos);
+			
+			for(Emprestimo emprestimo : listaEmprestimos) {
+				EmprestimoDTO emprestimoDTO = emprestimoService.toDTO(emprestimo);
+				listaEmprestimosDTO.add(emprestimoDTO);
+			}
+			alunoDTO.setListaEmprestimosDTO(listaEmprestimosDTO);
+			
+			listaAlunoDTO.add(alunoDTO);	
+		}
+		return listaAlunoDTO;	
 	}
 	
 	
