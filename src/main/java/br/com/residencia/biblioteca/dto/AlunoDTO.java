@@ -1,33 +1,29 @@
 package br.com.residencia.biblioteca.dto;
 
 import java.time.Instant;
+import java.util.List;
 
 public class AlunoDTO {
 	
-	private int numeroMatriculaAluno;
-
-	
+	private int numeroMatriculaAluno;	
 	private String nome;
-
-	
 	private Instant dataNascimento;
-
-	
 	private String cpf;
-
 	private String logradouro;
-
-
 	private String numeroLogradouro;
-
-	
 	private String complemento;
-
-	
 	private String bairro;
-
 	private String cidade;
-
+	private List<EmprestimoDTO> listaEmprestimosDTO;
+	
+	public List<EmprestimoDTO> getListaEmprestimosDTO() {
+		return listaEmprestimosDTO;
+	}
+	
+	public void setListaEmprestimosDTO(List<EmprestimoDTO> listaEmprestimosDTO) {
+		this.listaEmprestimosDTO = listaEmprestimosDTO;
+	}
+	
 	public int getNumeroMatriculaAluno() {
 		return numeroMatriculaAluno;
 	}

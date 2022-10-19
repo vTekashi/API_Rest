@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.residencia.biblioteca.dto.EmprestimoAlunoDTO;
 import br.com.residencia.biblioteca.dto.EmprestimoDTO;
 import br.com.residencia.biblioteca.entity.Emprestimo;
 import br.com.residencia.biblioteca.repository.EmprestimoRepository;
@@ -39,7 +40,7 @@ public class EmprestimoService {
 	}
 	
 	
-	private Emprestimo toEntidade (EmprestimoDTO emprestimoDTO) {
+	public Emprestimo toEntidade (EmprestimoDTO emprestimoDTO) {
 		Emprestimo emprestimo = new Emprestimo();
 		
 		
@@ -50,7 +51,7 @@ public class EmprestimoService {
 		return emprestimo;
 	}
 	
-	private EmprestimoDTO toDTO(Emprestimo emprestimo) {
+	public EmprestimoDTO toDTO(Emprestimo emprestimo) {
 		EmprestimoDTO emprestimoDTO = new EmprestimoDTO();
 		
 		emprestimoDTO.setDataEmprestimo(emprestimo.getDataEmprestimo());
@@ -64,5 +65,15 @@ public class EmprestimoService {
 	public Emprestimo deleteEmprestimo(int id) {
 		emprestimoRepository.deleteById(id);
 		return getEmprestimoById(id);
+	}
+
+	public EmprestimoAlunoDTO toDTO2(Emprestimo emprestimo) {
+		EmprestimoAlunoDTO emprestimoAlunoDTO = new EmprestimoAlunoDTO();
+		
+		emprestimoAlunoDTO.setDataEmprestimo(emprestimo.getDataEmprestimo());
+		emprestimoAlunoDTO.setDataEntrega(emprestimo.getDataEntrega());
+		emprestimoAlunoDTO.setCodigoEmprestimo(emprestimo.getCodigoEmprestimo());
+		
+		return emprestimoAlunoDTO;
 	}
 }
