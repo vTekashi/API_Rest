@@ -9,5 +9,5 @@ import br.com.residencia.biblioteca.entity.Emprestimo;
 
 public interface EmprestimoRepository extends JpaRepository<Emprestimo, Integer>{
 	public List<Emprestimo> findByAlunos(Aluno aluno);
-	public List<Emprestimo>findByAlunosResumo(Aluno aluno);
+//	public List<Emprestimo>findByAlunosResumo(Aluno aluno);
 }

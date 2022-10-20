@@ -26,6 +26,8 @@ public class AlunoService {
 	@Autowired
 	EmprestimoService emprestimoService;
 	
+
+	
 	public List<Aluno> getAllAlunos(){
 		return alunoRepository.findAll();
 	}
@@ -161,28 +163,37 @@ public class AlunoService {
 		return listaAlunoDTO;	
 	}
 	
-//	public List<AlunoEmprestimoDTO> getAllAlunoEmprestimoResumoDTO(){
-//		List<Aluno> listaAluno = alunoRepository.findAll();
-//		List<AlunoEmprestimoDTO> listaAlunoEmprestimoDTO = new ArrayList<>();
-//	
-//		for(Aluno alunos: listaAluno) {
-//			AlunoEmprestimoDTO alunoEmprestimoDTO = toDTO2(alunos);
-//			List<Emprestimo> listaEmprestimos = new ArrayList<>();
-//			List<EmprestimoAlunoDTO> listaEmprestimoAlunoDTO = new ArrayList<>();
-//		
-//			listaEmprestimos = emprestimoRepository.findByAlunos(alunos);
-//			
-//			for(Emprestimo emprestimo : listaEmprestimos) {
-//				EmprestimoAlunoDTO emprestimoAlunoDTO = emprestimoService.toDTO(emprestimo);
-//				listaEmprestimoAlunoDTO.add(emprestimoAlunoDTO);
-//			}
-//			alunoEmprestimoDTO.setListaEmprestimoAlunoDTO(listaEmprestimoAlunoDTO);
-//			
-//			listaAlunoDTO.add(alunoDTO);	
-//		}
-//		return listaAlunoDTO;	
-//	}
-//	
+	public List<AlunoEmprestimoDTO> getAllAlunoEmprestimoResumoDTO(){
+		List<Aluno> listaAluno = alunoRepository.findAll();
+		List<AlunoEmprestimoDTO> listaAlunoEmprestimoDTO = new ArrayList<>();
+	
+		for(Aluno alunos: listaAluno) {
+			AlunoEmprestimoDTO alunoEmprestimoDTO = toDTO2(alunos);
+			List<Emprestimo> listaEmprestimos = new ArrayList<>();
+			List<EmprestimoAlunoDTO> listaEmprestimoAlunoDTO = new ArrayList<>();
+		
+			listaEmprestimos = emprestimoRepository.findByAlunos(alunos);
+			
+			for(Emprestimo emprestimo : listaEmprestimos) {
+				EmprestimoAlunoDTO emprestimoAlunoDTO = emprestimoService.toDTO2(emprestimo);
+				listaEmprestimoAlunoDTO.add(emprestimoAlunoDTO);
+			}
+			alunoEmprestimoDTO.setListaEmprestimoResumoDTO(listaEmprestimoAlunoDTO);
+			
+			listaAlunoEmprestimoDTO.add(alunoEmprestimoDTO);	
+		}
+		return listaAlunoEmprestimoDTO;	
+	}
+	
+	private AlunoEmprestimoDTO toDTO2(Aluno aluno) {
+		AlunoEmprestimoDTO alunoEmprestimoDTO = new AlunoEmprestimoDTO();
+		
+		alunoEmprestimoDTO.setCpf(aluno.getCpf());
+		alunoEmprestimoDTO.setNome(aluno.getNome());
+		alunoEmprestimoDTO.setNumeroMatriculaAluno(aluno.getNumeroMatriculaAluno());
+		
+		return alunoEmprestimoDTO;
+	}
 	
 	
 }

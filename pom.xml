@@ -12,7 +12,7 @@
 	<artifactId>biblioteca</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>biblioteca</name>
-	<description>API Restful - Ger de Biblioteca</description>
+	<description>API Restful - Gerenciamento de Biblioteca</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -29,7 +29,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -41,17 +40,7 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.6.11</version>
-		</dependency>
-		<dependency>
+			<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
@@ -59,6 +48,15 @@
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
 			<version>3.19.2</version>
+		</dependency>
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

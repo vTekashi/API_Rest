@@ -28,6 +28,9 @@ public class EditoraService {
 	@Autowired
 	LivroService livroService;
 	
+	@Autowired
+	EmailService emailService;
+	
 	
 	public List<Editora> getAllEditoras(){
 		return editoraRepository.findAll();
@@ -113,6 +116,9 @@ public class EditoraService {
 			//editoraAtualizadaDTO.setCodigoEditora(editoraAtualizada.getCodigoEditora());
 			//editoraAtualizadaDTO.setNome(editoraAtualizada.getNome());
 		}
+		
+		emailService.sendEmail("vitinho_thiago@hotmail.com", "teste envio em-mail", editoraAtualizadaDTO.toString());
+		
 		return editoraAtualizadaDTO;
 	}
 	
